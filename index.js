@@ -15,7 +15,7 @@ server.get('/', (request, response) => {
 server.get('/hubs', (req, res) => {
     db.find()
     .then(hubs => {
-        console.log(hubs);
+        // console.log(hubs);
         res.json(hubs)
     })
     .catch(err => {
@@ -26,6 +26,22 @@ server.get('/hubs', (req, res) => {
 //Json is a variation of send that explicitly sends json.
 //How is db.find  pulling in an array of hubs.
 
+//POST --> Getting to post level implies that your are able to get the route
+
+server.post('/', (req, res)=> {
+
+    const newHub = req.body;
+    db.add(newHub)
+    .then(hub => {
+        res.status(201).json(hub);
+    })
+    .catch(err => {
+        res.status(500).json({
+            err: err,
+            message:'failed to create a new hun'
+        })
+    })
+});
 
 server.get('/now', (request,response) => {
     const now = new Date().toISOString()
