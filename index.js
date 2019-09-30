@@ -1,6 +1,9 @@
 //libraries 
 const express = require('express');
 
+//Middleware
+
+
 //Other files
 const db = require('./data/hubs-model.js');
 //This lets you access all the methods inside of the hubs model js file
@@ -27,8 +30,11 @@ server.get('/hubs', (req, res) => {
 //How is db.find  pulling in an array of hubs.
 
 //POST --> Getting to post level implies that your are able to get the route
+// In express req.body is not defined , need one more step is needed
+//The body needs to be taking from the request and parsed on.
+//Middleware adds  meat to the express framework
 
-server.post('/', (req, res)=> {
+server.post('/hubs', (req, res)=> {
 
     const newHub = req.body;
     db.add(newHub)
@@ -58,3 +64,5 @@ server.listen(4000, () => {
 
 //How to access the database, and pull the methods inside the database file
 //Data access layer --> Methods that access the database for you
+
+//You can test your code inside of postman to make sure that it works and there is nothi wrong
