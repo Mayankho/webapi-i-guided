@@ -1,14 +1,19 @@
 //libraries 
 const express = require('express');
 
-//Middleware
+const server = express();
+
+
+//Middleware, Plug this in before the route handler
+server.use(express.json())
+//This run a bit of middleware then we throw it into server.use so that it is in use
+//This will make you post body post now and not return an error
 
 
 //Other files
 const db = require('./data/hubs-model.js');
 //This lets you access all the methods inside of the hubs model js file
 
-const server = express();
 
 //Api endpoints
 server.get('/', (request, response) => {
