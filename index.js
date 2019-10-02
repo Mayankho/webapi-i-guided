@@ -54,6 +54,79 @@ server.post('/hubs', (req, res)=> {
     })
 });
 
+//Delete function logic
+/* 
+    1. Pullling in the id from req.params ,
+    2/ params is a property on the request
+    3. And have  logic to display the deleted hub if it is present else
+    --> Return a 404 status code if it is not present.
+
+*/
+
+
+server.delete('/hubs/:id', (req,res) => {
+    const { id } = req.params; 
+    //const id = req.params.id; same thing
+    db.remove(id)
+    .then(deletedHub => {
+        if (deletedHub){
+            res.json(deletedHub)
+        } else {
+            res.status(404).json({
+                message: 'invalid hub id'
+            })
+        }
+        
+    })
+    .catch(err => {
+        res.status(500).json({
+            err:err,
+            message: "failed to delete"
+        })
+    })
+});
+
+
+//Put /hubs/:id 
+
+server.put('/hubs', (req,res) => {
+    const { id } = req.params;
+    const changes = req.body;
+
+    db.update(id, changes)
+    .then(updated => {
+        if(updated){
+            res.json(updated)
+        } else {
+            res.status(404).json({
+                message: 'Failed to update the hub!'
+            })
+    
+        }
+
+    })
+    .catch(err => {
+        res.status(500).json({
+            err:err,
+            message: 'Failed to update the hub'
+        })
+    })
+})
+
+server.get('/hubs/:id', (req ,res) => {
+    const { id } = req.params;
+    db.find(id)
+    .then(hubsid => {
+        res.status(200).json(hubsid)
+    })
+    .catch(err => {
+        res.status(404).json({
+            err: err, 
+            message: 'Failed to get hubs id'
+        })
+    })
+})
+
 server.get('/now', (request,response) => {
     const now = new Date().toISOString()
     response.send(now)
