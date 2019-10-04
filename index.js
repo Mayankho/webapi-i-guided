@@ -115,7 +115,7 @@ server.put('/hubs', (req,res) => {
 
 server.get('/hubs/:id', (req ,res) => {
     const { id } = req.params;
-    db.find(id)
+    db.findById(id)
     .then(hubsid => {
         res.status(200).json(hubsid)
     })
@@ -126,6 +126,8 @@ server.get('/hubs/:id', (req ,res) => {
         })
     })
 })
+
+// if statement would be good here just to check if hubs is there or not.
 
 server.get('/now', (request,response) => {
     const now = new Date().toISOString()
